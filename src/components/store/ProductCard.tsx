@@ -71,29 +71,45 @@ export function ProductCard({ product }: { product: Product }) {
           )}
         </div>
 
-        {/* Wishlist Button */}
-        <button
-          onClick={handleWishlistClick}
-          className={`absolute top-1.5 right-1.5 sm:top-3 sm:right-3 z-10 p-1 sm:p-2 rounded-full backdrop-blur-md transition-colors ${
-            isWishlisted
-              ? 'bg-rose-500 text-white'
-              : 'bg-slate-950/60 text-slate-300 hover:text-white hover:bg-slate-900'
-          }`}
-          aria-label="Toggle Wishlist"
-        >
-          <Heart className={`w-3 h-3 sm:w-4 sm:h-4 ${isWishlisted ? 'fill-current' : ''}`} />
-        </button>
-
-        {/* Quick View Overlay Button */}
-        <div className="absolute inset-x-0 bottom-3 px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 hidden sm:block">
+        {/* Action Controls: Touch Preview & Wishlist */}
+        <div className="absolute top-1.5 right-1.5 sm:top-3 sm:right-3 z-10 flex items-center gap-1">
           <button
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               setQuickViewProduct(product);
             }}
-            className="w-full bg-slate-950/90 hover:bg-slate-950 text-slate-200 font-semibold text-xs py-2.5 rounded backdrop-blur-md border border-slate-700 flex items-center justify-center gap-1.5 transition-colors"
+            className="p-1 sm:p-2 rounded-full bg-slate-950/70 text-slate-300 hover:text-gold-400 hover:bg-slate-900 backdrop-blur-md transition-colors"
+            title="Preview Product"
+            aria-label="Preview Product"
           >
-            <Eye className="w-3.5 h-3.5" /> Quick View
+            <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+          </button>
+
+          <button
+            onClick={handleWishlistClick}
+            className={`p-1 sm:p-2 rounded-full backdrop-blur-md transition-colors ${
+              isWishlisted
+                ? 'bg-rose-500 text-white'
+                : 'bg-slate-950/60 text-slate-300 hover:text-white hover:bg-slate-900'
+            }`}
+            aria-label="Toggle Wishlist"
+          >
+            <Heart className={`w-3 h-3 sm:w-4 sm:h-4 ${isWishlisted ? 'fill-current' : ''}`} />
+          </button>
+        </div>
+
+        {/* Quick View Overlay Button (Responsive for Desktop & Mobile Touch) */}
+        <div className="absolute inset-x-0 bottom-1.5 sm:bottom-3 px-1.5 sm:px-4 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setQuickViewProduct(product);
+            }}
+            className="w-full bg-slate-950/90 hover:bg-slate-950 text-gold-400 sm:text-slate-200 font-semibold text-[9px] sm:text-xs py-1 sm:py-2.5 rounded backdrop-blur-md border border-slate-700/80 flex items-center justify-center gap-1 transition-colors"
+          >
+            <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5" /> Preview
           </button>
         </div>
       </div>
