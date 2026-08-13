@@ -9,13 +9,22 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.
 const isSupabaseConfigured = Boolean(
   supabaseUrl &&
   supabaseKey &&
+  typeof supabaseUrl === 'string' &&
+  supabaseUrl.startsWith('http') &&
   !supabaseUrl.includes('demo') &&
   !supabaseKey.includes('placeholder')
 );
 
-export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl!, supabaseKey!)
-  : null;
+let supabaseClientInstance: any = null;
+if (isSupabaseConfigured) {
+  try {
+    supabaseClientInstance = createClient(supabaseUrl!, supabaseKey!);
+  } catch (e) {
+    console.error('Failed to initialize Supabase client in db/client.ts:', e);
+  }
+}
+
+export const supabase = supabaseClientInstance;
 
 export const dbService = {
   async getProducts(filters?: { categorySlug?: string; search?: string; status?: string }): Promise<Product[]> {
