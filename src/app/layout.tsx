@@ -37,7 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      <body className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans overflow-x-hidden antialiased selection:bg-gold-500 selection:text-slate-950">
         <AuthProvider>
           <ThemeConfigProvider>
             <StoreProvider>
