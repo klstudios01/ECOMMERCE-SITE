@@ -19,36 +19,36 @@ export function Footer() {
 
   return (
     <footer className="bg-slate-950 border-t border-slate-900 text-slate-400 text-sm">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-10 sm:py-14 grid grid-cols-3 gap-3 sm:gap-8 lg:gap-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-8 py-8 sm:py-14 grid grid-cols-3 gap-2 sm:gap-8 lg:gap-12">
         {/* Column 1: Brand & Contact */}
-        <div className="space-y-3 sm:space-y-4">
-          <Link href="/" className="flex items-center gap-1.5 font-bold tracking-widest text-lg sm:text-2xl text-white">
-            <span className="w-6 h-6 sm:w-8 sm:h-8 rounded bg-gold-500 text-slate-950 flex items-center justify-center text-xs sm:text-base font-black">KL</span>
+        <div className="space-y-2 sm:space-y-4">
+          <Link href="/" className="flex items-center gap-1 font-bold tracking-widest text-base sm:text-2xl text-white">
+            <span className="w-5 h-5 sm:w-8 sm:h-8 rounded bg-gold-500 text-slate-950 flex items-center justify-center text-[10px] sm:text-base font-black shrink-0">KL</span>
             <span className="truncate">STUDIOS</span>
           </Link>
           <p className="text-slate-400 text-[10px] sm:text-xs leading-tight sm:leading-relaxed hidden sm:block">
             Crafting luxury acoustics, titanium timepieces, and full-grain Italian leather carry.
           </p>
-          <div className="space-y-1.5 sm:space-y-2 text-[10px] sm:text-xs pt-1 sm:pt-2">
-            <div className="flex items-center gap-1.5 sm:gap-2.5 text-slate-300">
+          <div className="space-y-1 sm:space-y-2 text-[9px] sm:text-xs pt-1">
+            <div className="flex items-center gap-1 sm:gap-2.5 text-slate-300">
               <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-gold-500 shrink-0" />
-              <span className="truncate">Accra, Ghana</span>
+              <span>Osu, Accra, Ghana</span>
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2.5 text-slate-300">
+            <div className="flex items-center gap-1 sm:gap-2.5 text-slate-300">
               <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-gold-500 shrink-0" />
-              <span className="truncate">+233 24 000 9999</span>
+              <span>+233 24 000 9999</span>
             </div>
-            <div className="flex items-center gap-1.5 sm:gap-2.5 text-slate-300">
+            <div className="flex items-center gap-1 sm:gap-2.5 text-slate-300">
               <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-gold-500 shrink-0" />
-              <span className="truncate">concierge@klstudios.com</span>
+              <span className="break-all sm:break-normal">concierge@klstudios.com</span>
             </div>
           </div>
         </div>
 
         {/* Column 2: Collections */}
-        <div className="space-y-2 sm:space-y-3">
-          <h4 className="text-white text-xs sm:text-sm font-bold tracking-wider uppercase">Collections</h4>
-          <ul className="space-y-1.5 sm:space-y-2.5 text-[10px] sm:text-xs">
+        <div className="space-y-1.5 sm:space-y-3">
+          <h4 className="text-white text-[11px] sm:text-sm font-bold tracking-wider uppercase">Collections</h4>
+          <ul className="space-y-1 sm:space-y-2.5 text-[9px] sm:text-xs font-medium">
             <li><Link href="/shop" className="hover:text-gold-400 transition-colors block py-0.5">All Products</Link></li>
             <li><Link href="/shop?category=audio-acoustics" className="hover:text-gold-400 transition-colors block py-0.5">Audio & Acoustics</Link></li>
             <li><Link href="/shop?category=wearable-tech" className="hover:text-gold-400 transition-colors block py-0.5">Wearable Tech</Link></li>
@@ -58,9 +58,9 @@ export function Footer() {
         </div>
 
         {/* Column 3: Client Care */}
-        <div className="space-y-2 sm:space-y-3">
-          <h4 className="text-white text-xs sm:text-sm font-bold tracking-wider uppercase">Client Care</h4>
-          <ul className="space-y-1.5 sm:space-y-2.5 text-[10px] sm:text-xs">
+        <div className="space-y-1.5 sm:space-y-3">
+          <h4 className="text-white text-[11px] sm:text-sm font-bold tracking-wider uppercase">Client Care</h4>
+          <ul className="space-y-1 sm:space-y-2.5 text-[9px] sm:text-xs font-medium">
             <li><Link href="/account" className="hover:text-gold-400 transition-colors block py-0.5">Account Portal</Link></li>
             <li><Link href="/account?tab=orders" className="hover:text-gold-400 transition-colors block py-0.5">Track Orders</Link></li>
             <li><Link href="/delivery-policy" className="hover:text-gold-400 transition-colors block py-0.5">Delivery & Freight</Link></li>
@@ -105,7 +105,7 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-slate-900 bg-slate-950 py-6 px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 text-center sm:text-left">
           <p>© 2026 KL STUDIOS. All Rights Reserved. Production-Grade Commercial Platform.</p>
           <div className="flex items-center gap-4 text-slate-400">
             <span className="flex items-center gap-1 text-slate-300">
