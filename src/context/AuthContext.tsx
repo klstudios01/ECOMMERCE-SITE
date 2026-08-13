@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AdminRole } from '@/types';
+import { supabase } from '@/lib/db/client';
 
 interface UserAccount {
   id: string;
@@ -13,8 +14,8 @@ interface UserAccount {
 interface AuthContextType {
   // CUSTOMER AUTH
   customer: UserAccount | null;
-  registerCustomer: (name: string, email: string, phone: string, pass: string) => boolean;
-  loginCustomer: (email: string, pass: string) => boolean;
+  registerCustomer: (name: string, email: string, phone: string, pass: string) => Promise<boolean>;
+  loginCustomer: (email: string, pass: string) => Promise<boolean>;
   logoutCustomer: () => void;
   changeCustomerPassword: (currentPass: string, newPass: string) => { success: boolean; message: string };
 
@@ -75,8 +76,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // 1. CUSTOMER AUTHENTICATION & PASSWORD CHANGE
-  const registerCustomer = (name: string, email: string, phone: string, pass: string) => {
+  const registerCustomer = async (name: string, email: string, phone: string, pass: string): Promise<boolean> => {
     try {
+      if (supabase) {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password: pass,
+          options: {
+            data: {
+              full_name: name,
+              phone: phone,
+            },
+          },
+        });
+
+        if (!error && data?.user) {
+          // Create profile record in Supabase profiles table
+          try {
+            await supabase.from('profiles').insert([{
+              user_id: data.user.id,
+              email: email.toLowerCase(),
+              full_name: name,
+              phone: phone,
+            }]);
+          } catch (e) {}
+
+          const sessionData = { id: data.user.id, name, email, phone };
+          setCustomer(sessionData);
+          localStorage.setItem('kl_customer_session', JSON.stringify(sessionData));
+          return true;
+        }
+      }
+
+      // Local storage fallback for offline/demo mode
       const usersRaw = localStorage.getItem('kl_registered_users') || '[]';
       const users: any[] = JSON.parse(usersRaw);
 
@@ -93,12 +125,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.setItem('kl_customer_session', JSON.stringify(sessionData));
       return true;
     } catch (e) {
+      console.error('Registration error:', e);
       return false;
     }
   };
 
-  const loginCustomer = (email: string, pass: string) => {
+  const loginCustomer = async (email: string, pass: string): Promise<boolean> => {
     try {
+      if (supabase) {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password: pass,
+        });
+
+        if (!error && data?.user) {
+          const sessionData = {
+            id: data.user.id,
+            name: data.user.user_metadata?.full_name || email.split('@')[0],
+            email: data.user.email || email,
+            phone: data.user.user_metadata?.phone || '',
+          };
+          setCustomer(sessionData);
+          localStorage.setItem('kl_customer_session', JSON.stringify(sessionData));
+          return true;
+        }
+      }
+
       const usersRaw = localStorage.getItem('kl_registered_users') || '[]';
       const users: any[] = JSON.parse(usersRaw);
 

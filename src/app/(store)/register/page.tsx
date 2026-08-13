@@ -18,22 +18,25 @@ export default function RegisterPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage(null);
 
-    setTimeout(() => {
-      const ok = registerCustomer(fullName.trim(), email.trim(), phone.trim(), password);
+    try {
+      const ok = await registerCustomer(fullName.trim(), email.trim(), phone.trim(), password);
       setLoading(false);
 
       if (ok) {
         setSuccess(true);
         setTimeout(() => router.push('/account'), 1200);
       } else {
-        setErrorMessage('This email address is already registered. Please sign in or use a different email.');
+        setErrorMessage('Could not create account with this email. Please sign in or try a different email.');
       }
-    }, 600);
+    } catch (err) {
+      setLoading(false);
+      setErrorMessage('Registration failed. Please try again.');
+    }
   };
 
   return (

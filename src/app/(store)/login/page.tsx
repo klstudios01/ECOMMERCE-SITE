@@ -16,13 +16,13 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage(null);
 
-    setTimeout(() => {
-      const ok = loginCustomer(email.trim(), password);
+    try {
+      const ok = await loginCustomer(email.trim(), password);
       setLoading(false);
 
       if (ok) {
@@ -31,7 +31,10 @@ export default function LoginPage() {
       } else {
         setErrorMessage('Invalid customer credentials. Please check your email and password, or create a new account.');
       }
-    }, 600);
+    } catch (err) {
+      setLoading(false);
+      setErrorMessage('Authentication failed. Please try again.');
+    }
   };
 
   return (
