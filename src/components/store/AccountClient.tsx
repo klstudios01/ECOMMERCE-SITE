@@ -31,6 +31,13 @@ export function AccountClient({ initialOrders, initialWishlist, initialAddresses
   const { customer, logoutCustomer, changeCustomerPassword } = useAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'wishlist' | 'addresses' | 'security'>('overview');
 
+  // Security Gate: Automatically redirect to login page if user is not signed in
+  useEffect(() => {
+    if (!customer) {
+      router.push('/login');
+    }
+  }, [customer, router]);
+
   // Change Password Form State
   const [currentPass, setCurrentPass] = useState('');
   const [newPass, setNewPass] = useState('');

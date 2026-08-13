@@ -6,12 +6,14 @@ import { useRouter } from 'next/navigation';
 import { Search, ShoppingBag, Heart, User, Menu, X } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import { useThemeConfig } from '@/context/ThemeConfigContext';
+import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/lib/utils';
 
 export function Header() {
   const router = useRouter();
   const { cart, wishlist, setIsCartOpen, totals } = useStore();
   const { config } = useThemeConfig();
+  const { customer } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -96,12 +98,12 @@ export function Header() {
 
         {/* Action Icons */}
         <div className="flex items-center gap-3 sm:gap-5">
-          <Link href="/account" className="p-2 text-slate-300 hover:text-gold-400 rounded-lg hover:bg-slate-900 transition-colors" aria-label="Customer Account">
+          <Link href={customer ? "/account" : "/login"} className="p-2 text-slate-300 hover:text-gold-400 rounded-lg hover:bg-slate-900 transition-colors" aria-label="Customer Account">
             <User className="w-5 h-5" />
           </Link>
 
           {config.enableWishlist && (
-            <Link href="/account?tab=wishlist" className="p-2 text-slate-300 hover:text-gold-400 rounded-lg hover:bg-slate-900 transition-colors relative" aria-label="Wishlist">
+            <Link href={customer ? "/account?tab=wishlist" : "/login"} className="p-2 text-slate-300 hover:text-gold-400 rounded-lg hover:bg-slate-900 transition-colors relative" aria-label="Wishlist">
               <Heart className="w-5 h-5" />
               {wishlistCount > 0 && (
                 <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-gold-500 text-slate-950 text-[10px] font-bold flex items-center justify-center">
