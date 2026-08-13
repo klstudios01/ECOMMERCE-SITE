@@ -23,7 +23,7 @@ interface AuthContextType {
   isAdminAuthenticated: boolean;
   adminEmail: string | null;
   adminRole: AdminRole;
-  loginAdmin: (email: string, pass: string) => boolean;
+  loginAdmin: (email: string, pass: string) => Promise<boolean>;
   logoutAdmin: () => void;
   changeAdminPassword: (currentPass: string, newPass: string) => { success: boolean; message: string };
 
@@ -203,10 +203,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   // 2. STORE ADMIN AUTHENTICATION & PASSWORD CHANGE
-  const loginAdmin = (email: string, pass: string) => {
+  const loginAdmin = async (email: string, pass: string): Promise<boolean> => {
     const em = email.toLowerCase().trim();
 
-    // Check custom passwords in localStorage first
+    if (supabase) {
+      try {
+        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+          email: em,
+          password: pass,
+        });
+
+        if (!authError && authData?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('id, email, full_name')
+            .eq('email', em)
+            .single();
+
+          if (profile) {
+            const { data: adminUser } = await supabase
+              .from('admin_users')
+              .select('role_id, is_suspended, roles(name)')
+              .eq('profile_id', profile.id)
+              .single();
+
+            if (adminUser && !adminUser.is_suspended) {
+              const roleName = (adminUser as any).roles?.name || 'Super Admin';
+              setIsAdminAuthenticated(true);
+              setAdminEmail(em);
+              setAdminRole(roleName as AdminRole);
+
+              sessionStorage.setItem('kl_admin_session', em);
+              sessionStorage.setItem('kl_admin_role', roleName);
+              return true;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('Supabase admin login fallback:', e);
+      }
+    }
+
+    // Local admin check fallback
     const customAdminPassesRaw = localStorage.getItem('kl_admin_passwords') || '{}';
     const customAdminPasses = JSON.parse(customAdminPassesRaw);
 

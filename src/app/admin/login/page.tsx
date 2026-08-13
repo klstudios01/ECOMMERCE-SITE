@@ -14,13 +14,13 @@ export default function AdminLoginPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage(null);
 
-    setTimeout(() => {
-      const success = loginAdmin(email.trim(), password);
+    try {
+      const success = await loginAdmin(email.trim(), password);
       setLoading(false);
 
       if (success) {
@@ -28,7 +28,10 @@ export default function AdminLoginPage() {
       } else {
         setErrorMessage('Invalid administrative credentials. Please check your email and password.');
       }
-    }, 600);
+    } catch (err) {
+      setLoading(false);
+      setErrorMessage('Admin authentication failed.');
+    }
   };
 
   return (
