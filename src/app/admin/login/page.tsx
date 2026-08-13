@@ -9,7 +9,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const { loginAdmin } = useAuth();
 
-  const [email, setEmail] = useState('admin@klstudios.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,7 +26,7 @@ export default function AdminLoginPage() {
       if (success) {
         router.push('/admin');
       } else {
-        setErrorMessage('Invalid administrative credentials. Hint: admin@klstudios.com / admin123');
+        setErrorMessage('Invalid administrative credentials. Please check your email and password.');
       }
     }, 600);
   };
@@ -81,15 +81,10 @@ export default function AdminLoginPage() {
             </div>
           </div>
 
-          <div className="p-3 rounded bg-slate-950 border border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
-            <KeyRound className="w-4 h-4 text-gold-500 shrink-0" />
-            <span>Default Demo Login: <strong className="text-white">admin@klstudios.com</strong> / <strong className="text-white">admin123</strong></span>
-          </div>
-
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors"
+            className="w-full bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors mt-2"
           >
             {loading ? 'Authenticating Admin...' : <>Enter Admin Dashboard <ArrowRight className="w-4 h-4" /></>}
           </button>

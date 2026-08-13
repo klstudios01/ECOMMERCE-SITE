@@ -163,14 +163,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return true;
       }
 
-      // Demo fallback
-      if (email.toLowerCase() === 'client@example.com' && pass === 'password123') {
-        const demoData = { id: 'usr-demo', name: 'Kwame Mensah', email, phone: '+233 24 000 0000' };
-        setCustomer(demoData);
-        localStorage.setItem('kl_customer_session', JSON.stringify(demoData));
-        return true;
-      }
-
       return false;
     } catch (e) {
       return false;
@@ -202,11 +194,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         users[idx].password = newPass;
         localStorage.setItem('kl_registered_users', JSON.stringify(users));
         return { success: true, message: 'Customer password updated successfully!' };
-      }
-
-      // If demo account fallback
-      if (customer.email === 'client@example.com' && currentPass === 'password123') {
-        return { success: true, message: 'Demo password updated successfully!' };
       }
 
       return { success: false, message: 'Current password verification failed.' };

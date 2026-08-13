@@ -25,7 +25,7 @@ export default function DeveloperLoginPage() {
       if (success) {
         router.push('/admin/developer');
       } else {
-        setErrorMessage('Invalid developer passcode key. Hint: dev12345');
+        setErrorMessage('Invalid developer passcode key.');
       }
     }, 500);
   };
@@ -58,22 +58,17 @@ export default function DeveloperLoginPage() {
                 required
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
-                placeholder="dev12345"
+                placeholder="••••••••"
                 className="w-full bg-slate-950 border border-slate-800 rounded-lg py-2.5 pl-9 pr-3 text-white font-mono focus:outline-none focus:border-gold-500"
               />
               <KeyRound className="w-4 h-4 absolute left-3 top-3 text-slate-500" />
             </div>
           </div>
 
-          <div className="p-3 rounded bg-slate-950 border border-slate-800 text-[11px] text-slate-400 flex items-center gap-2">
-            <ShieldAlert className="w-4 h-4 text-gold-500 shrink-0" />
-            <span>Default Developer Passcode: <strong className="text-white font-mono">dev12345</strong></span>
-          </div>
-
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors"
+            className="w-full bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs py-3.5 rounded-lg flex items-center justify-center gap-2 transition-colors mt-2"
           >
             {loading ? 'Verifying Passcode...' : <>Unlock Developer Portal <ArrowRight className="w-4 h-4" /></>}
           </button>

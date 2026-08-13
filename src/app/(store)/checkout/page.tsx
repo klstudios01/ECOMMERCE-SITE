@@ -22,9 +22,9 @@ export default function CheckoutPage() {
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [streetAddress, setStreetAddress] = useState('14 Cantonments Road');
-  const [city, setCity] = useState('Accra');
-  const [region, setRegion] = useState('Greater Accra');
+  const [streetAddress, setStreetAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [region, setRegion] = useState('');
   const [selectedZoneId, setSelectedZoneId] = useState('');
   const [notes, setNotes] = useState('');
 
