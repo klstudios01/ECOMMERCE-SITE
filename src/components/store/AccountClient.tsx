@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Order, Product, Address } from '@/types';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { useAuth } from '@/context/AuthContext';
@@ -26,6 +27,7 @@ interface Props {
 }
 
 export function AccountClient({ initialOrders, initialWishlist, initialAddresses }: Props) {
+  const router = useRouter();
   const { customer, logoutCustomer, changeCustomerPassword } = useAuth();
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'wishlist' | 'addresses' | 'security'>('overview');
 
@@ -34,6 +36,12 @@ export function AccountClient({ initialOrders, initialWishlist, initialAddresses
   const [newPass, setNewPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleSignOut = (e: React.MouseEvent) => {
+    e.preventDefault();
+    logoutCustomer();
+    router.push('/login');
+  };
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,13 +78,13 @@ export function AccountClient({ initialOrders, initialWishlist, initialAddresses
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6">
         <div>
           <span className="text-gold-500 font-bold text-xs tracking-widest uppercase">Bespoke Client Portal</span>
-          <h1 className="text-3xl font-black text-white uppercase">{customer ? customer.name : 'Kwame Mensah'}</h1>
-          <p className="text-xs text-slate-400">{customer ? customer.email : 'client@example.com'} • Active Client Session</p>
+          <h1 className="text-3xl font-black text-white uppercase">{customer ? customer.name : 'Client Session'}</h1>
+          <p className="text-xs text-slate-400">{customer ? customer.email : 'Not Signed In'} • Active Client Session</p>
         </div>
 
         <button
-          onClick={logoutCustomer}
-          className="bg-slate-900 hover:bg-slate-850 border border-slate-800 text-rose-400 font-bold text-xs px-4 py-2.5 rounded-lg flex items-center gap-2 transition-colors"
+          onClick={handleSignOut}
+          className="bg-slate-900 hover:bg-slate-850 border border-slate-800 text-rose-400 font-bold text-xs px-4 py-2.5 rounded-lg flex items-center gap-2 transition-colors cursor-pointer"
         >
           <LogOut className="w-4 h-4" /> Sign Out Session
         </button>

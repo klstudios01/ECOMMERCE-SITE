@@ -127,7 +127,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logoutCustomer = () => {
     setCustomer(null);
-    localStorage.removeItem('kl_customer_session');
+    try {
+      localStorage.removeItem('kl_customer_session');
+      sessionStorage.removeItem('kl_customer_session');
+    } catch (e) {}
   };
 
   const changeCustomerPassword = (currentPass: string, newPass: string) => {
