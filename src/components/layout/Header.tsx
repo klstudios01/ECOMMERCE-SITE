@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Search, ShoppingBag, Heart, User, Menu, X, ShieldAlert, Code2 } from 'lucide-react';
+import { Search, ShoppingBag, Heart, User, Menu, X } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
 import { useThemeConfig } from '@/context/ThemeConfigContext';
 import { formatCurrency } from '@/lib/utils';
@@ -37,11 +37,8 @@ export function Header() {
             </p>
             <div className="flex items-center gap-6 text-slate-400">
               <span>Concierge: {config.supportPhone}</span>
-              <Link href="/admin/developer" className="text-gold-400 hover:text-gold-300 transition-colors flex items-center gap-1 font-bold bg-gold-500/10 px-2 py-0.5 rounded border border-gold-500/20">
-                <Code2 className="w-3.5 h-3.5" /> Developer Portal
-              </Link>
-              <Link href="/admin" className="text-slate-300 hover:text-white transition-colors flex items-center gap-1 font-semibold">
-                <ShieldAlert className="w-3.5 h-3.5" /> Store Admin
+              <Link href="/contact" className="hover:text-gold-400 transition-colors">
+                Help & Support
               </Link>
             </div>
           </div>
@@ -153,9 +150,6 @@ export function Header() {
             <Link href="/shop" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold-400">Shop Catalog</Link>
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold-400">About Brand</Link>
             <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className="hover:text-gold-400">Contact</Link>
-            <Link href="/admin/developer" onClick={() => setIsMobileMenuOpen(false)} className="text-gold-400 font-bold flex items-center gap-2 pt-2 border-t border-slate-800">
-              <Code2 className="w-4 h-4" /> Developer Portal
-            </Link>
           </nav>
         </div>
       )}
