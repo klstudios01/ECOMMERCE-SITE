@@ -343,10 +343,7 @@ export const dbService = {
         }
       } catch (e) {}
     }
-    if (productId) {
-      return mockDb.reviews.filter(r => r.product_id === productId && r.is_approved);
-    }
-    return mockDb.reviews;
+    return mockDb.getReviews(productId);
   },
 
   async createReview(reviewData: Partial<Review>): Promise<Review> {

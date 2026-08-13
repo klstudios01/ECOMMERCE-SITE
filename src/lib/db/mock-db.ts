@@ -531,6 +531,30 @@ class MockDatabase {
     return true;
   }
 
+  // REVIEWS
+  getReviews(productId?: string) {
+    if (productId) {
+      return this.reviews.filter(r => r.product_id === productId && r.is_approved);
+    }
+    return [...this.reviews];
+  }
+
+  createReview(reviewData: Partial<Review>) {
+    const newReview: Review = {
+      id: `rv-${Date.now()}`,
+      product_id: reviewData.product_id!,
+      author_name: reviewData.author_name || 'Anonymous',
+      rating: reviewData.rating || 5,
+      title: reviewData.title,
+      comment: reviewData.comment || '',
+      is_verified_purchase: reviewData.is_verified_purchase || false,
+      is_approved: true,
+      created_at: new Date().toISOString(),
+    };
+    this.reviews.unshift(newReview);
+    return newReview;
+  }
+
   // AUDIT LOGS
   logAdminAction(email: string, action: string, resource: string, details?: any) {
     const log: AuditLog = {
