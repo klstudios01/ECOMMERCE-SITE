@@ -26,7 +26,7 @@ export function ShopCatalogClient({
   const [maxPrice, setMaxPrice] = useState<number>(3000);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState<boolean>(false);
-  const [mobileCols, setMobileCols] = useState<'3' | '2'>('3');
+  const [mobileCols, setMobileCols] = useState<'3' | '2'>('2');
 
   // Filter & sort logic
   const filteredProducts = useMemo(() => {
