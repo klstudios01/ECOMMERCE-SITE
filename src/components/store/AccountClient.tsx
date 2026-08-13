@@ -83,7 +83,7 @@ export function AccountClient({ initialOrders, initialWishlist, initialAddresses
   };
 
   const navItems = [
-    { id: 'overview', label: 'Client Overview', icon: User },
+    { id: 'overview', label: 'Account Overview', icon: User },
     { id: 'orders', label: 'Order History', icon: ShoppingBag, count: userOrders.length },
     { id: 'wishlist', label: 'Saved Wishlist', icon: Heart, count: userWishlist.length },
     { id: 'addresses', label: 'Saved Addresses', icon: MapPin },
@@ -95,9 +95,9 @@ export function AccountClient({ initialOrders, initialWishlist, initialAddresses
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-slate-800 pb-6">
         <div>
-          <span className="text-gold-500 font-bold text-xs tracking-widest uppercase">Bespoke Client Portal</span>
-          <h1 className="text-3xl font-black text-white uppercase">{customer ? customer.name : 'Client Session'}</h1>
-          <p className="text-xs text-slate-400">{customer ? customer.email : 'Not Signed In'} • Active Client Session</p>
+          <span className="text-gold-500 font-bold text-xs tracking-widest uppercase">My Account</span>
+          <h1 className="text-3xl font-black text-white uppercase">{customer ? customer.name : 'Account Session'}</h1>
+          <p className="text-xs text-slate-400">{customer ? customer.email : 'Not Signed In'} • Active Session</p>
         </div>
 
         <button
