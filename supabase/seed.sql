@@ -85,3 +85,19 @@ INSERT INTO banners (title, subtitle, image_url, cta_text, cta_link, is_active, 
 ('THE LUXURY COLLECTION', 'Experience uncompromising craftsmanship and acoustic brilliance.', 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80', 'Shop Catalog', '/shop', true, 1),
 ('TIMEOFF TRAVEL CARRY', 'Full-grain Italian weekender bags engineered for a lifetime.', 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=1600&q=80', 'Discover Carry', '/shop?category=leather-goods', true, 2)
 ON CONFLICT DO NOTHING;
+
+-- 8. ADMIN USER PROFILES & ROLES IN SUPABASE
+INSERT INTO profiles (id, email, full_name, phone) VALUES
+('f1000000-0000-0000-0000-000000000001', 'admin@klstudios.com', 'Super Admin Concierge', '+233 24 000 9999'),
+('f1000000-0000-0000-0000-000000000002', 'store.manager@klstudios.com', 'Catalog Manager', '+233 24 000 9998'),
+('f1000000-0000-0000-0000-000000000003', 'orders@klstudios.com', 'Fulfillment Officer', '+233 24 000 9997'),
+('f1000000-0000-0000-0000-000000000004', 'content.manager@klstudios.com', 'Marketing Lead', '+233 24 000 9996')
+ON CONFLICT (email) DO NOTHING;
+
+INSERT INTO admin_users (profile_id, role_id, department) VALUES
+('f1000000-0000-0000-0000-000000000001', (SELECT id FROM roles WHERE name = 'Super Admin' LIMIT 1), 'Executive Management'),
+('f1000000-0000-0000-0000-000000000002', (SELECT id FROM roles WHERE name = 'Store Manager' LIMIT 1), 'Catalog & Merchandising'),
+('f1000000-0000-0000-0000-000000000003', (SELECT id FROM roles WHERE name = 'Order Manager' LIMIT 1), 'Logistics & Delivery'),
+('f1000000-0000-0000-0000-000000000004', (SELECT id FROM roles WHERE name = 'Content Manager' LIMIT 1), 'Brand Marketing')
+ON CONFLICT (profile_id) DO NOTHING;
+
