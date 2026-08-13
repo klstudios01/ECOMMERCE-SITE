@@ -135,7 +135,7 @@ export function AdminProductsClient({ initialProducts, categories }: Props) {
     <div className="space-y-6">
       {/* Top Action Bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900 border border-slate-800 p-4 rounded-xl">
-        <div className="relative flex-1 max-w-md">
+        <div className="relative flex-1 w-full max-w-md">
           <input
             type="text"
             placeholder="Search products by title or SKU..."
@@ -146,17 +146,17 @@ export function AdminProductsClient({ initialProducts, categories }: Props) {
           <Search className="w-3.5 h-3.5 absolute right-2.5 top-3 text-slate-500" />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto flex-wrap">
           <button
             onClick={handleExportCSV}
-            className="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs px-4 py-2.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition-colors"
+            className="flex-1 sm:flex-none bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs px-3 sm:px-4 py-2.5 rounded-lg border border-slate-700 flex items-center justify-center gap-1.5 transition-colors"
           >
             <Download className="w-3.5 h-3.5" /> Export CSV
           </button>
 
           <button
             onClick={handleOpenCreateModal}
-            className="bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-lg transition-colors flex items-center gap-2"
+            className="flex-1 sm:flex-none bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-xs px-4 sm:px-5 py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             <Plus className="w-4 h-4" /> Add Product
           </button>
