@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/context/StoreContext';
+import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/lib/utils';
 import { DeliveryZone } from '@/types';
 import { dbService } from '@/lib/db/client';
@@ -11,20 +12,32 @@ import { ShoppingBag, Lock, ShieldCheck, ArrowRight, Truck, CheckCircle2, AlertC
 export default function CheckoutPage() {
   const router = useRouter();
   const { cart, totals, appliedCoupon, selectedDeliveryZone, setDeliveryZone, clearCart } = useStore();
+  const { customer } = useAuth();
 
   const [deliveryZones, setDeliveryZones] = useState<DeliveryZone[]>([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // Form Fields
-  const [customerName, setCustomerName] = useState('Kwame Mensah');
-  const [customerEmail, setCustomerEmail] = useState('kwame.mensah@example.com');
-  const [customerPhone, setCustomerPhone] = useState('+233 24 123 4567');
+  // Form Fields - Prefilled from logged-in customer account
+  const [customerName, setCustomerName] = useState('');
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
   const [streetAddress, setStreetAddress] = useState('14 Cantonments Road');
   const [city, setCity] = useState('Accra');
   const [region, setRegion] = useState('Greater Accra');
   const [selectedZoneId, setSelectedZoneId] = useState('');
   const [notes, setNotes] = useState('');
+
+  // Security Gate: Only registered users can access checkout and place orders
+  useEffect(() => {
+    if (!customer) {
+      router.push('/login?redirect=/checkout');
+    } else {
+      setCustomerName(customer.name || '');
+      setCustomerEmail(customer.email || '');
+      setCustomerPhone(customer.phone || '');
+    }
+  }, [customer, router]);
 
   useEffect(() => {
     async function loadZones() {

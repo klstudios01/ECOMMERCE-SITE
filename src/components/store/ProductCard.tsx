@@ -2,13 +2,17 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Eye, Heart, ShoppingBag, Star, Check } from 'lucide-react';
 import { Product } from '@/types';
 import { formatCurrency, calculateDiscountPercentage } from '@/lib/utils';
 import { useStore } from '@/context/StoreContext';
+import { useAuth } from '@/context/AuthContext';
 
 export function ProductCard({ product }: { product: Product }) {
+  const router = useRouter();
   const { addToCart, toggleWishlist, isInWishlist, setQuickViewProduct } = useStore();
+  const { customer } = useAuth();
   const [added, setAdded] = useState(false);
 
   const isWishlisted = isInWishlist(product.id);
@@ -32,6 +36,15 @@ export function ProductCard({ product }: { product: Product }) {
     addToCart(product, defaultVariant, 1);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
+  };
+
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!customer) {
+      router.push('/login');
+      return;
+    }
+    toggleWishlist(product);
   };
 
   return (
@@ -60,10 +73,7 @@ export function ProductCard({ product }: { product: Product }) {
 
         {/* Wishlist Button */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            toggleWishlist(product);
-          }}
+          onClick={handleWishlistClick}
           className={`absolute top-1.5 right-1.5 sm:top-3 sm:right-3 z-10 p-1 sm:p-2 rounded-full backdrop-blur-md transition-colors ${
             isWishlisted
               ? 'bg-rose-500 text-white'

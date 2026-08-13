@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Product, ProductVariant, Review } from '@/types';
 import { formatCurrency, calculateDiscountPercentage } from '@/lib/utils';
 import { useStore } from '@/context/StoreContext';
+import { useAuth } from '@/context/AuthContext';
 import { ProductCard } from './ProductCard';
 import { dbService } from '@/lib/db/client';
 import { Star, ShoppingBag, Heart, Check, ShieldCheck, Truck, RefreshCw, Send, CheckCircle2 } from 'lucide-react';
@@ -18,6 +19,7 @@ interface Props {
 export function ProductDetailClient({ product, initialReviews, relatedProducts }: Props) {
   const router = useRouter();
   const { addToCart, toggleWishlist, isInWishlist } = useStore();
+  const { customer } = useAuth();
 
   const defaultVariant = product.variants?.[0] || {
     id: `v-${product.id}`,
@@ -55,6 +57,10 @@ export function ProductDetailClient({ product, initialReviews, relatedProducts }
 
   const handleBuyNow = () => {
     if (isOutOfStock) return;
+    if (!customer) {
+      router.push('/login?redirect=/checkout');
+      return;
+    }
     addToCart(product, selectedVariant, quantity);
     router.push('/checkout');
   };
@@ -212,7 +218,13 @@ export function ProductDetailClient({ product, initialReviews, relatedProducts }
               </div>
 
               <button
-                onClick={() => toggleWishlist(product)}
+                onClick={() => {
+                  if (!customer) {
+                    router.push('/login');
+                    return;
+                  }
+                  toggleWishlist(product);
+                }}
                 className={`p-3 rounded-lg border transition-colors ${
                   isWishlisted
                     ? 'border-rose-500 text-rose-500 bg-rose-500/10'

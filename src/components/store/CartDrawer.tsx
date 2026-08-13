@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, Tag, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useStore } from '@/context/StoreContext';
+import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/lib/utils';
 import { dbService } from '@/lib/db/client';
 
 export function CartDrawer() {
   const { cart, isCartOpen, setIsCartOpen, removeFromCart, updateCartQuantity, totals, applyCoupon, appliedCoupon } = useStore();
+  const { customer } = useAuth();
   const [couponCode, setCouponCode] = useState('');
   const [couponError, setCouponError] = useState<string | null>(null);
   const [couponLoading, setCouponLoading] = useState(false);
@@ -206,7 +208,7 @@ export function CartDrawer() {
               </div>
 
               <Link
-                href="/checkout"
+                href={customer ? "/checkout" : "/login?redirect=/checkout"}
                 onClick={() => setIsCartOpen(false)}
                 className="w-full bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-sm py-3.5 rounded flex items-center justify-center gap-2 transition-colors"
               >
